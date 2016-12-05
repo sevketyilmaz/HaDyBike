@@ -1,0 +1,17 @@
+<resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_home_fragment">Merhaba Home fragment</string>
+    <string name="hello_timeline_fragment">Merhaba Timeline Fragment</string>
+    <string name="hello_bike_fragment">Merhaba Bike Fragment</string>
+
+    <string name="app_name">HaDy Bike</string>
+    <string name="profile">Profil</string>
+    <string name="notification">Uyarılar</string>
+    <string name="action_settings">Ayarlar</string>
+
+    <string name="bike">Bike</string>
+    <string name="home">Aktivite Listesi</string>
+    <string name="timeline">Zaman Akışı</string>
+
+
+</resources>
