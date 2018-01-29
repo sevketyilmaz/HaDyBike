@@ -3,9 +3,8 @@ package com.hacktusdynamics.android.hadybike.ui.views;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-public class IconTextView extends TextView {
+public class IconTextView extends android.support.v7.widget.AppCompatTextView {
     public IconTextView(Context context) {
         super(context);
         setIcomoonFont();

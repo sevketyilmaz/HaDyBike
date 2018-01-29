@@ -1,8 +1,9 @@
 package com.hacktusdynamics.android.hadybike.ui.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,11 +11,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.hacktusdynamics.android.hadybike.R;
 import com.hacktusdynamics.android.hadybike.ui.fragments.BikeFragment;
 import com.hacktusdynamics.android.hadybike.ui.fragments.HomeFragment;
@@ -78,13 +82,43 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons(); //setup tab icons
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        final Activity activity = this;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: QR code reader
+                IntentIntegrator integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                integrator.setPrompt(" ");
+                integrator.setCameraId(0);
+                integrator.setOrientationLocked(false);
+                integrator.setBeepEnabled(true);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+
+                /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                */
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null){
+            if(result.getContents() == null){
+                Log.d(TAG, "canceled scan");
+                Toast.makeText(this, "Canceled", Toast.LENGTH_LONG).show();
+            }else{
+                Log.d(TAG, "Scanned");
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        }else {
+            //this is important otherwise result will not pass to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     /** Setup Icons for 3 tabs */
